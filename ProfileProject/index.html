@@ -1,0 +1,191 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Colton Johnson - Profile Page</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    background: linear-gradient(to bottom, #f5f7fa, #e2e8f0);
+    padding: 0;
+  }
+
+  header, main, footer {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+
+  header {
+    padding-top: 24px;
+  }
+
+  h1 { font-size: clamp(1.8rem, 4vw, 3rem); }
+  h2 { font-size: clamp(1.4rem, 3vw, 2.2rem); }
+  h3 { font-size: clamp(1.2rem, 2.5vw, 1.6rem); }
+  p, li, label, input, textarea, button {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+  }
+
+  nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    text-decoration: none;
+  }
+
+  section {
+    padding: 16px 0;
+    border-top: 1px solid #ddd;
+  }
+
+  .profile-img {
+    max-width: 200px;
+    height: auto;
+    border-radius: 10px;
+    display: block;
+    margin: 12px 0;
+  }
+
+  .projects article {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin: 12px 0;
+    background: white;
+  }
+
+  form {
+    max-width: 600px;
+  }
+
+  label {
+    display: block;
+    margin-top: 12px;
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-top: 6px;
+  }
+
+  button {
+    margin-top: 12px;
+    padding: 10px 14px;
+    cursor: pointer;
+  }
+
+  footer {
+    border-top: 1px solid #ddd;
+    padding-bottom: 24px;
+  }
+</style>
+
+</head>
+<body>
+  <header>
+    <h1>Colton Johnson</h1>
+    <p>
+      My name is Colton Johnson. I'm a father of 3 and I've been enrolled at Lake Land College for 2 years.
+      I have been in an internship at First Mid Bank &amp; Trust for 1 year as IT Helpdesk, expanding my practical knowledge of software, hardware, and user interaction.
+    </p>
+
+    <img class="profile-img" src="ColtonJohnsonHeadshot.jpg" alt="Professional headshot photo of Colton wearing a blue polo with a blue pull over">
+
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="https://www.linkedin.com/in/colton-johnson-7b342526a/" target="_blank" rel="noopener">LinkedIn Profile</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="about">
+      <h2>About</h2>
+      <p>
+        I’m working toward a stable career I can do long-term into retirement when I'm rolling around in a wheelchair. I’m focused on building skills that support a reliable role
+        where I can keep learning and contributing over time.
+      </p>
+      <p>
+        I enjoy problem solving and helping people with technology. My goal is to grow from helpdesk experience into a higher paying position by building projects,
+        practicing every week, and learning tools that help me work smarter (automation).
+      </p>
+    </section>
+
+    <section id="skills">
+      <h2>Skills</h2>
+      <ul>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>JavaScript</li>
+        <li>HVAC</li>
+        <li>Desktop Support</li>
+      </ul>
+    </section>
+
+    <section id="projects" class="projects">
+      <h2>Projects</h2>
+
+      <article>
+        <h3>DnD Dice Roll (Python)</h3>
+        <p>
+          A Python dice roller I learned in game dev to roll D&amp;D dice. It includes a menu for D4 through D100 and prints the total of the roll.
+          I want to expand it later to support more games and themed visuals.
+        </p>
+        <p>
+          <a href="DnDDiceRoll.py" target="_blank" rel="noopener">Download the Code</a>
+        </p>
+      </article>
+
+      <article>
+        <h3>HTML Landing Site</h3>
+        <p>
+          A basic landing site I made in Intro to Web. I want to learn more CSS to improve the appearance and layout over time.
+        </p>
+        <p>
+          <a href="https://replit.com/join/mvbukfknua-colton199575" target="_blank" rel="noopener">View project on Replit</a>
+        </p>
+      </article>
+    </section>
+
+    <section id="contact">
+      <h2>Contact Me</h2>
+
+      <form action="#" method="post">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" required minlength="2">
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required>
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" required minlength="10" rows="6"></textarea>
+
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Colton Johnson</p>
+    <p>
+      <a href="https://www.linkedin.com/in/colton-johnson-7b342526a/" target="_blank" rel="noopener">LinkedIn</a>
+      |
+      <a href="https://replit.com/@colton199575" target="_blank" rel="noopener">Replit</a>
+    </p>
+  </footer>
+</body>
+</html>
