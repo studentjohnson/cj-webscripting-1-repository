@@ -8,13 +8,17 @@
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to main content</a>
+
 <header>
-  <p style="max-width:900px;margin:0 auto;padding:1rem;">
-    <img src="assets/images/logo-compass.svg" alt="Compass rose logo" style="width:44px;height:44px;vertical-align:middle;border-radius:.6rem;">
-    <a href="index.html" style="margin-left:.5rem;">Grand Line Logbook</a>
-  </p>
+  <div class="container top">
+    <a class="brand" href="index.html">
+      <img src="assets/images/logo-compass.svg" alt="Compass rose logo" width="44" height="44">
+      <span>Grand Line Logbook</span>
+    </a>
+  </div>
+
   <nav aria-label="Primary">
-    <ul>
+    <ul class="container">
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="media.html" aria-current="page">Media</a></li>
@@ -24,29 +28,36 @@
 </header>
 
 <main id="main-content">
-  <h1>Media</h1>
-  <section aria-label="Embedded video">
-    <h2>One Piece AMV</h2>
-    <p>The embed video below resizes on mobile screens.</p>
-<figure class="responsive-embed">
-  <iframe 
-    src="https://www.youtube.com/embed/bhhTHtBX474"
-    title="One Piece AMV video"
-    allowfullscreen>
-  </iframe>
-  <figcaption>One Piece AMV embedded from YouTube.</figcaption>
-</figure>
-  </section>
+  <div class="container">
+    <h1>Media</h1>
 
-  <section aria-label="Logo note">
-    <h2>Logo</h2>
-    <p>The compass logo in the header appears on every page for consistent navigation.</p>
-  </section>
+    <section class="stack" aria-label="Embedded video">
+      <h2>One Piece AMV</h2>
+      <p class="muted">The embedded video below resizes properly on mobile screens.</p>
 
+      <figure class="responsive-embed">
+        <iframe 
+          src="https://www.youtube.com/embed/bhhTHtBX474"
+          title="One Piece AMV video"
+          allowfullscreen>
+        </iframe>
+      </figure>
+
+      <figcaption class="muted small">
+        One Piece AMV embedded from YouTube.
+      </figcaption>
+    </section>
+
+    <section class="stack" aria-label="Logo note">
+      <h2>Logo</h2>
+      <p>The compass logo in the header appears on every page for consistent navigation.</p>
+    </section>
+  </div>
 </main>
 
 <footer>
-  <p>Fan-made tribute site for One Piece • <a href="contact.html" style="color:#e5e7eb;">Contact the creator</a></p>
+  <p class="container">Fan-made tribute site for One Piece • <a href="contact.html">Contact the creator</a></p>
 </footer>
+
 </body>
 </html>
