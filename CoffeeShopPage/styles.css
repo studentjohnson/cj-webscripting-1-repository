@@ -418,9 +418,13 @@ list-style: none;
     grid-template-columns: 1fr 1fr;
   }
 
-  .map-box {
-    grid-column: span 2;
-  }
+ .real-map {
+  width: 100%;
+  min-height: 18rem;
+  border: 0;
+  border-radius: var(--radius);
+  display: block;
+}
 
   .footer-grid {
     grid-template-columns: repeat(3, 1fr);
