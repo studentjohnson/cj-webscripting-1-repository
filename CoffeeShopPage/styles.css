@@ -406,9 +406,8 @@ list-style: none;
 }
 
 .hero-logo {
-  width: 80%;
+  width: 14rem;
   height: auto;
-  display: block;
 }
   .menu-grid {
     grid-template-columns: repeat(3, 1fr);
