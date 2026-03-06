@@ -7,8 +7,7 @@ This project recreates Mockup C: Coffee Shop Landing and focuses on layout, acce
 ## Live Site
 
 GitHub Pages link:
-
-https://YOUR-USERNAME.github.io/YOUR-REPOSITORY-NAME/
+https://studentjohnson.github.io/cj-webscripting-1-repository/CoffeeShopPage
 
 ## Project Overview
 
