@@ -300,7 +300,7 @@ p {
   scroll-margin-top: 120px;
 }
 
-.menu-grid:has(.menu-card:target) .menu-card {
+.menu-grid:has(.menu-card:target) .menu-card:not(:target) {
   opacity: 0.35;
   transform: scale(0.97);
 }
