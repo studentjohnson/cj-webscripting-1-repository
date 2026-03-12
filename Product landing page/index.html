@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FurMind</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header class="site-header">
+<nav class="nav container">
+
+<a href="#home" class="brand">FurMind</a>
+
+<div class="nav-controls">
+<button id="themeToggle" class="theme-toggle" type="button">Theme</button>
+
+<button
+id="menuBtn"
+class="menu-btn"
+type="button"
+aria-expanded="false"
+aria-controls="navLinks">
+Menu
+</button>
+</div>
+
+<ul class="nav-links" id="navLinks">
+<li><a href="#features">Features</a></li>
+<li><a href="#quiz">Quiz Preview</a></li>
+<li><a href="#pricing">Pricing</a></li>
+<li><a href="#start">Start</a></li>
+</ul>
+
+</nav>
+</header>
+
+
+<main>
+
+<section class="hero fade-in" id="home">
+
+<div class="container hero-layout">
+
+<article class="hero-text">
+
+<p class="eyebrow">Dreamy, silly, cozy AI fursona vibes</p>
+
+<h1>Meet the Fursona That Matches Your Soul</h1>
+
+<p class="hero-copy">
+Find Your True Self Through FurMind. Take a playful quiz and discover
+the fursona that matches your energy.
+</p>
+
+<div class="hero-actions">
+<button class="btn btn-primary" id="openModalTop">
+Find My Outer Fursona
+</button>
+
+<a href="#pricing" class="btn btn-secondary">
+See Plans
+</a>
+</div>
+
+</article>
+
+
+<section class="hero-preview">
+
+<article class="preview-card">
+<span class="preview-emoji">🦊</span>
+<h2>Fox</h2>
+<p>Playful energy</p>
+</article>
+
+<article class="preview-card">
+<span class="preview-emoji">🐇</span>
+<h2>Bunny</h2>
+<p>Soft cozy vibes</p>
+</article>
+
+<article class="preview-card">
+<span class="preview-emoji">🦎</span>
+<h2>Axolotl</h2>
+<p>Gentle chaos</p>
+</article>
+
+</section>
+
+</div>
+
+</section>
+
+
+<section class="section" id="features">
+
+<div class="container">
+
+<header class="section-heading">
+<h2>Features</h2>
+<p>Three ways to discover your fursona.</p>
+</header>
+
+<section class="feature-grid">
+
+<article class="card">
+<h3>AI Personality Quiz</h3>
+<p>Answer playful questions and reveal your vibe.</p>
+</article>
+
+<article class="card">
+<h3>Fursona Reveal</h3>
+<p>Discover both your outer and inner fursona.</p>
+</article>
+
+<article class="card">
+<h3>Chat Companion</h3>
+<p>Unlock a cozy AI companion that chats with you.</p>
+</article>
+
+</section>
+
+</div>
+
+</section>
+
+
+<section class="section" id="quiz">
+
+<div class="container">
+
+<header class="section-heading">
+<h2>Quiz Preview</h2>
+<p>Example questions you might see.</p>
+</header>
+
+<section class="quiz-grid">
+
+<article class="card">
+<h3>Sample Questions</h3>
+
+<ul>
+<li>Would you explore a glowing forest path?</li>
+<li>Pick your comfort snack.</li>
+<li>Are you sleepy, sparkly, or chaotic?</li>
+</ul>
+
+</article>
+
+
+<article class="card">
+
+<h3>Example Result</h3>
+
+<p>Outer Fursona: Otter-Fox</p>
+
+<p>Playful, clever, and warm.</p>
+
+</article>
+
+</section>
+
+</div>
+
+</section>
+
+
+<section class="section" id="pricing">
+
+<div class="container">
+
+<header class="section-heading">
+<h2>Pricing</h2>
+<p>Choose your fursona journey.</p>
+</header>
+
+<section class="pricing-grid">
+
+<article class="card">
+<h3>Free</h3>
+<p class="price">$0</p>
+<p>Outer Fursona Quiz</p>
+<button class="btn btn-secondary">Start</button>
+</article>
+
+<article class="card featured-card">
+<h3>Plus</h3>
+<p class="price">$4.99</p>
+<p>Inner Fursona Reveal</p>
+<button class="btn btn-primary">Unlock</button>
+</article>
+
+<article class="card">
+<h3>Plus Ultra AI</h3>
+<p class="price">$19.99</p>
+<p>AI Fursona Chat</p>
+<button class="btn btn-secondary">Go Ultra</button>
+</article>
+
+</section>
+
+</div>
+
+</section>
+
+
+<section class="section" id="start">
+
+<div class="container">
+
+<section class="cta-box">
+
+<article>
+<h2>Ready to find your fursona?</h2>
+<p>Start with the free quiz.</p>
+</article>
+
+<button class="btn btn-primary" id="openModalBottom">
+Find My Outer Fursona
+</button>
+
+</section>
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer class="site-footer">
+
+<div class="container footer-grid">
+
+<article>
+<h2>FurMind</h2>
+<p>Discover your fursona and chat companion.</p>
+</article>
+
+<nav>
+<ul class="footer-links">
+<li><a href="#features">Features</a></li>
+<li><a href="#quiz">Quiz</a></li>
+<li><a href="#pricing">Pricing</a></li>
+</ul>
+</nav>
+
+</div>
+
+</footer>
+
+
+<section class="modal-backdrop" id="quizModal" hidden>
+
+<div class="modal">
+
+<h2>Start Quiz</h2>
+
+<p>Your free quiz reveals your Outer Fursona.</p>
+
+<button class="btn btn-primary">Start Quiz</button>
+
+<button class="btn btn-secondary" id="closeModal">
+Close
+</button>
+
+</div>
+
+</section>
+
+<script src="script.js"></script>
+
+</body>
+</html>
