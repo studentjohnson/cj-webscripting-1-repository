@@ -70,7 +70,7 @@ question: "Pick your ideal weekend vibe.",
 answers: [
 { text: "Exploring somewhere fun", creature: "raccoon" },
 { text: "Relaxing with snacks and blankets", creature: "cat" },
-{ text: "Swimming near water", creature: "otter" },
+{ text: "Swimming in water", creature: "otter" },
 { text: "Something magical", creature: "dragon" }
 ]
 },
