@@ -314,18 +314,20 @@ Find My Outer Fursona
 </footer>
 
 
-<section class="modal-backdrop" id="quizModal" hidden>
+<section class="modal-backdrop" id="quizModal">
 
-<div class="modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Start Quiz">
 
-<h2>Start Quiz</h2>
+    <h2>Start Quiz</h2>
 
-<p>Your free quiz reveals your Outer Fursona.</p>
+    <p>Your free quiz reveals your Outer Fursona.</p>
 
-<button class="btn btn-primary">Start Quiz</button>
-<button class="btn btn-secondary" id="closeModal">Close</button>
+    <div class="modal-actions">
+      <button class="btn btn-primary" type="button">Start Quiz</button>
+      <button class="btn btn-secondary" id="closeModal" type="button">Close</button>
+    </div>
 
-</div>
+  </div>
 
 </section>
 
