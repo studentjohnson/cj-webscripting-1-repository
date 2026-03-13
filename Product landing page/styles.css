@@ -194,8 +194,7 @@ p {
 .card,
 .preview-card,
 .creature-card,
-.cta-box,
-.modal {
+.cta-box {
   background: var(--panel);
   border: 1px solid var(--border);
   box-shadow: 0 10px 30px var(--shadow);
@@ -257,16 +256,37 @@ p {
   box-shadow: 0 0 0 3px var(--accent-soft), 0 10px 30px var(--shadow);
 }
 
+/* MODAL SYSTEM (works for multiple modals) */
+
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  display: grid;
-  place-items: center;
-  background: rgba(0,0,0,0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 1rem;
+  z-index: 1000;
+}
+
+.modal-backdrop.active {
+  display: flex;
 }
 
 .modal {
   width: min(32rem, 100%);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  box-shadow: 0 10px 30px var(--shadow);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
 }
 
 .fade-in {
@@ -274,54 +294,57 @@ p {
 }
 
 @keyframes fadeIn {
-  from { opacity:0; transform:translateY(6px); }
-  to { opacity:1; transform:translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@media (min-width:48rem) {
+@media (min-width: 48rem) {
+  .nav {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-.nav {
-flex-direction: row;
-justify-content: space-between;
-align-items: center;
+  .nav-links {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .hero-layout {
+    flex-direction: row;
+  }
+
+  .feature-grid,
+  .pricing-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .quiz-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .creature-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
-.nav-links {
-display: flex;
-flex-direction: row;
-}
+@media (min-width: 64rem) {
+  .hero h1 {
+    font-size: 3rem;
+  }
 
-.hero-layout {
-flex-direction: row;
-}
+  .section {
+    padding: 5rem 0;
+  }
 
-.feature-grid,
-.pricing-grid {
-grid-template-columns: repeat(3,1fr);
-}
-
-.quiz-grid {
-grid-template-columns: repeat(2,1fr);
-}
-
-.creature-grid {
-grid-template-columns: repeat(3,1fr);
-}
-
-}
-
-@media (min-width:64rem) {
-
-.hero h1 {
-font-size:3rem;
-}
-
-.section {
-padding:5rem 0;
-}
-
-.creature-grid {
-grid-template-columns: repeat(5,1fr);
-}
-
+  .creature-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }
