@@ -101,7 +101,6 @@ p {
   z-index: 10;
   background: var(--bg);
   border-bottom: 1px solid var(--border);
-  transition: background-color 200ms ease, border-color 200ms ease;
 }
 
 .nav {
@@ -146,6 +145,20 @@ p {
   display: flex;
 }
 
+.nav-links a {
+  padding: 0.6rem 0.9rem;
+  border-radius: 0.75rem;
+  transition: background-color 200ms ease, transform 150ms ease;
+}
+
+.nav-links a:hover,
+.nav-links a:focus,
+.menu-btn:hover,
+.theme-toggle:hover {
+  background: var(--panel-soft);
+  transform: translateY(-2px);
+}
+
 .hero-layout {
   display: flex;
   flex-direction: column;
@@ -159,7 +172,6 @@ p {
 
 .hero h1 {
   font-size: 2.4rem;
-  margin-bottom: 1rem;
 }
 
 .hero-actions {
@@ -173,36 +185,52 @@ p {
 .feature-grid,
 .quiz-grid,
 .pricing-grid,
+.creature-grid,
 .footer-grid {
   display: grid;
   gap: 1rem;
 }
 
 .card,
-.preview-card {
+.preview-card,
+.creature-card,
+.cta-box,
+.modal {
   background: var(--panel);
   border: 1px solid var(--border);
+  box-shadow: 0 10px 30px var(--shadow);
   border-radius: 1.25rem;
   padding: 1.25rem;
-  box-shadow: 0 10px 30px var(--shadow);
   transition: transform 150ms ease;
 }
 
 .card:hover,
-.preview-card:hover {
+.preview-card:hover,
+.creature-card:hover {
   transform: translateY(-4px);
 }
 
-.preview-emoji {
-  font-size: 2rem;
+.hero-image {
+  width: 100%;
+  max-width: 420px;
+}
+
+.creature-card {
+  text-align: center;
+}
+
+.creature-card img {
+  width: 100%;
+  max-width: 160px;
+  margin: 0 auto 0.75rem;
 }
 
 .btn {
   padding: 0.85rem 1.2rem;
   border-radius: 999px;
   border: none;
-  cursor: pointer;
   font-weight: bold;
+  cursor: pointer;
   transition: transform 150ms ease;
 }
 
@@ -229,11 +257,6 @@ p {
   box-shadow: 0 0 0 3px var(--accent-soft), 0 10px 30px var(--shadow);
 }
 
-.site-footer {
-  padding: 3rem 0;
-  border-top: 1px solid var(--border);
-}
-
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -244,10 +267,6 @@ p {
 
 .modal {
   width: min(32rem, 100%);
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  padding: 1rem;
 }
 
 .fade-in {
@@ -285,6 +304,10 @@ grid-template-columns: repeat(3,1fr);
 grid-template-columns: repeat(2,1fr);
 }
 
+.creature-grid {
+grid-template-columns: repeat(3,1fr);
+}
+
 }
 
 @media (min-width:64rem) {
@@ -295,6 +318,10 @@ font-size:3rem;
 
 .section {
 padding:5rem 0;
+}
+
+.creature-grid {
+grid-template-columns: repeat(5,1fr);
 }
 
 }
