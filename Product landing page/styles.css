@@ -25,7 +25,18 @@
   --accent-soft: rgba(105, 217, 255, 0.12);
   --shadow: rgba(0, 0, 0, 0.35);
 }
-
+[data-theme="dark"] .btn-secondary {
+  color: var(--text);
+  border-color: var(--border);
+}
+[data-theme="dark"] .btn-primary {
+  color: #ffffff;
+}
+[data-theme="dark"] .btn-secondary:hover,
+[data-theme="dark"] .btn-secondary:focus {
+  background: var(--panel-soft);
+  color: var(--text);
+}
 * {
   box-sizing: border-box;
 }
