@@ -25,18 +25,7 @@
   --accent-soft: rgba(105, 217, 255, 0.12);
   --shadow: rgba(0, 0, 0, 0.35);
 }
-[data-theme="dark"] .btn-secondary {
-  color: var(--text);
-  border-color: var(--border);
-}
-[data-theme="dark"] .btn-primary {
-  color: #ffffff;
-}
-[data-theme="dark"] .btn-secondary:hover,
-[data-theme="dark"] .btn-secondary:focus {
-  background: var(--panel-soft);
-  color: var(--text);
-}
+
 * {
   box-sizing: border-box;
 }
@@ -55,8 +44,8 @@ body {
 }
 
 img {
-  max-width: 100%;
   display: block;
+  max-width: 100%;
 }
 
 a {
@@ -76,8 +65,8 @@ ul {
 h1,
 h2,
 h3 {
-  color: var(--heading);
   margin-top: 0;
+  color: var(--heading);
 }
 
 p {
@@ -99,11 +88,11 @@ p {
 }
 
 .eyebrow {
+  color: var(--muted);
   font-size: 0.9rem;
   font-weight: bold;
-  text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--muted);
+  text-transform: uppercase;
 }
 
 .site-header {
@@ -128,28 +117,39 @@ p {
 
 .nav-controls {
   display: flex;
-  gap: 0.75rem;
   flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 .menu-btn,
 .theme-toggle {
   width: fit-content;
   padding: 0.65rem 0.95rem;
-  border: 1px solid var(--border);
-  border-radius: 999px;
   background: var(--panel);
   color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 999px;
   cursor: pointer;
   transition: transform 150ms ease, background-color 200ms ease;
+}
+
+.menu-btn:hover,
+.menu-btn:focus,
+.theme-toggle:hover,
+.theme-toggle:focus,
+.nav-links a:hover,
+.nav-links a:focus {
+  background: var(--panel-soft);
+  transform: translateY(-2px);
 }
 
 .nav-links {
   display: none;
   flex-direction: column;
   gap: 0.75rem;
-  list-style: none;
+  margin: 0;
   padding: 0;
+  list-style: none;
 }
 
 .nav-links.open {
@@ -157,24 +157,17 @@ p {
 }
 
 .nav-links a {
+  display: inline-block;
   padding: 0.6rem 0.9rem;
   border-radius: 0.75rem;
   transition: background-color 200ms ease, transform 150ms ease;
 }
 
-.nav-links a:hover,
-.nav-links a:focus,
-.menu-btn:hover,
-.theme-toggle:hover {
-  background: var(--panel-soft);
-  transform: translateY(-2px);
-}
-
 .hero-layout {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
   align-items: center;
+  gap: 2rem;
 }
 
 .hero-text {
@@ -187,9 +180,9 @@ p {
 
 .hero-actions {
   display: flex;
-  gap: 0.75rem;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 0.75rem;
 }
 
 .hero-preview,
@@ -205,18 +198,20 @@ p {
 .card,
 .preview-card,
 .creature-card,
-.cta-box {
+.cta-box,
+.hero-image-card {
+  padding: 1.25rem;
   background: var(--panel);
   border: 1px solid var(--border);
-  box-shadow: 0 10px 30px var(--shadow);
   border-radius: 1.25rem;
-  padding: 1.25rem;
+  box-shadow: 0 10px 30px var(--shadow);
   transition: transform 150ms ease;
 }
 
 .card:hover,
 .preview-card:hover,
-.creature-card:hover {
+.creature-card:hover,
+.hero-image-card:hover {
   transform: translateY(-4px);
 }
 
@@ -237,25 +232,37 @@ p {
 
 .btn {
   padding: 0.85rem 1.2rem;
+  border: 1px solid transparent;
   border-radius: 999px;
-  border: none;
   font-weight: bold;
   cursor: pointer;
-  transition: transform 150ms ease;
+  transition: transform 150ms ease, background-color 200ms ease, color 200ms ease;
 }
 
-.btn:hover {
+.btn:hover,
+.btn:focus {
   transform: translateY(-2px);
 }
 
 .btn-primary {
   background: var(--accent);
-  color: white;
+  color: #fff;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background: var(--accent-strong);
 }
 
 .btn-secondary {
   background: var(--panel);
-  border: 1px solid var(--border);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+  background: var(--panel-soft);
 }
 
 .price {
@@ -267,7 +274,86 @@ p {
   box-shadow: 0 0 0 3px var(--accent-soft), 0 10px 30px var(--shadow);
 }
 
-/* MODAL SYSTEM (works for multiple modals) */
+.quiz-buttons,
+.modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.quiz-box {
+  max-width: 48rem;
+}
+
+.question-block + .question-block {
+  margin-top: 1.5rem;
+}
+
+.question-block h3 {
+  margin-bottom: 0.75rem;
+}
+
+.answer-group {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.answer-option {
+  display: block;
+  padding: 0.75rem 1rem;
+  background: var(--panel-soft);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  cursor: pointer;
+}
+
+.answer-option input {
+  margin-right: 0.5rem;
+}
+
+.quiz-result {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: var(--panel-soft);
+  border-radius: 1rem;
+}
+
+.quiz-result img {
+  max-width: 160px;
+  margin-top: 0.5rem;
+}
+
+.result-title {
+  color: var(--accent-strong);
+  font-weight: bold;
+}
+
+.cta-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.site-footer {
+  padding: 3rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.footer-links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-links li + li {
+  margin-top: 0.5rem;
+}
+
+.footer-links a:hover,
+.footer-links a:focus {
+  text-decoration: underline;
+}
 
 .modal-backdrop {
   position: fixed;
@@ -275,8 +361,8 @@ p {
   display: none;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.6);
   padding: 1rem;
+  background: rgba(0, 0, 0, 0.6);
   z-index: 1000;
 }
 
@@ -286,18 +372,11 @@ p {
 
 .modal {
   width: min(32rem, 100%);
+  padding: 1.25rem;
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 1rem;
-  padding: 1.25rem;
   box-shadow: 0 10px 30px var(--shadow);
-}
-
-.modal-actions {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  margin-top: 1rem;
 }
 
 .fade-in {
@@ -317,10 +396,15 @@ p {
 }
 
 @media (min-width: 48rem) {
+
   .nav {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .menu-btn {
+    display: none;
   }
 
   .nav-links {
@@ -344,9 +428,16 @@ p {
   .creature-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  .cta-box {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 @media (min-width: 64rem) {
+
   .hero h1 {
     font-size: 3rem;
   }
