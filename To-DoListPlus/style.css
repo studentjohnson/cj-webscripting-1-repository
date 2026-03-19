@@ -1,0 +1,194 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #222;
+}
+
+.app {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+form {
+  display: grid;
+  gap: 10px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input,
+select,
+button {
+  font: inherit;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #c8d0da;
+  border-radius: 10px;
+}
+
+button {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+form button {
+  background: #1f6feb;
+  color: white;
+}
+
+form button:hover {
+  background: #1557b0;
+}
+
+.statusFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.filterButton {
+  background: #e8edf5;
+  color: #222;
+}
+
+.filterButton:hover {
+  background: #d9e2ef;
+}
+
+.filterButton.active {
+  background: #1f6feb;
+  color: white;
+}
+
+.message {
+  min-height: 20px;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+}
+
+.error {
+  color: #b42318;
+}
+
+#taskCounter {
+  margin-bottom: 14px;
+  font-weight: bold;
+}
+
+#taskList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.taskItem {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: start;
+  padding: 14px;
+  border: 1px solid #d9e2ef;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  background: #fbfcfe;
+}
+
+.taskInfo {
+  display: grid;
+  gap: 8px;
+}
+
+.taskText {
+  font-size: 1rem;
+  word-break: break-word;
+}
+
+.taskText.done {
+  text-decoration: line-through;
+  color: #667085;
+}
+
+.taskTag {
+  display: inline-block;
+  width: fit-content;
+  font-size: 0.85rem;
+  background: #e9f2ff;
+  color: #1557b0;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.taskActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: end;
+}
+
+.completeButton {
+  background: #12b76a;
+  color: white;
+}
+
+.completeButton:hover {
+  background: #0f9658;
+}
+
+.deleteButton {
+  background: #f04438;
+  color: white;
+}
+
+.deleteButton:hover {
+  background: #c9332a;
+}
+
+.emptyMessage {
+  color: #667085;
+  margin-top: 6px;
+}
+
+@media (max-width: 600px) {
+  .taskItem {
+    grid-template-columns: 1fr;
+  }
+
+  .taskActions {
+    justify-content: start;
+  }
+}
