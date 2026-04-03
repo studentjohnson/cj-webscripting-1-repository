@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Baratie Eats</title>
+  <link rel="stylesheet" href="css/api-search.css" />
+</head>
+<body>
+  <nav class="side-nav">
+    <h2>Baratie Eats</h2>
+    <a href="index.html">Home</a>
+    <a href="api-search.html">Meal Search</a>
+  </nav>
+
+  <main class="main-content">
+    <header class="page-header">
+      <h1>Baratie Eats</h1>
+      <p>
+        Feeling hungry, pirate? Search for a meal and see real recipe data from TheMealDB API.
+      </p>
+    </header>
+
+    <section class="search-section">
+      <label for="searchInput">What are you craving today?</label>
+      <div class="search-row">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Try chicken, pasta, beef..."
+        />
+        <button id="searchBtn">Search</button>
+      </div>
+    </section>
+
+    <section class="status-section">
+      <p id="statusMessage">Type in a meal name and let the kitchen cook.</p>
+    </section>
+
+    <section id="results" class="results-grid"></section>
+  </main>
+
+  <script src="js/api-search.js"></script>
+</body>
+</html>
