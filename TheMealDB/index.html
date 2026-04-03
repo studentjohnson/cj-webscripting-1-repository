@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Colton's Site</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f6f1e8;
+      color: #1f2937;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .side-nav {
+      width: 220px;
+      background-color: #0b3d91;
+      color: white;
+      padding: 24px 18px;
+      box-sizing: border-box;
+      height: 100vh;
+    }
+
+    .side-nav h2 {
+      margin-top: 0;
+      color: #f4c542;
+    }
+
+    .side-nav a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      margin: 14px 0;
+      padding: 10px;
+      border-radius: 6px;
+      background-color: rgba(255,255,255,0.1);
+    }
+
+    .side-nav a:hover {
+      background-color: rgba(255,255,255,0.2);
+    }
+
+    .main {
+      flex: 1;
+      padding: 30px;
+    }
+
+    .card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 8px solid #f4c542;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      max-width: 600px;
+    }
+
+    h1 {
+      margin-top: 0;
+      color: #0b3d91;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="side-nav">
+    <h2>My Site</h2>
+    <a href="index.html">Home</a>
+    <a href="api-search.html">Baratie Eats</a>
+  </nav>
+
+  <main class="main">
+    <div class="card">
+      <h1>Welcome</h1>
+      <p>
+        This is my project site. Check out my API project below.
+      </p>
+
+      <p>
+        🍖 <strong>Baratie Eats</strong> lets you search for meals and get real recipe data using an API.
+      </p>
+
+      <p>
+        <a href="api-search.html">Go to Baratie Eats →</a>
+      </p>
+    </div>
+  </main>
+
+</body>
+</html>
