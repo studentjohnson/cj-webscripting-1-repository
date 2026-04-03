@@ -161,3 +161,11 @@ body {
     width: 100%;
   }
 }
+#randomBtn {
+  background-color: #f4c542;
+  color: #000;
+}
+
+#randomBtn:hover {
+  background-color: #d9a800;
+}
