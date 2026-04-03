@@ -1,0 +1,163 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f6f1e8;
+  color: #1f2937;
+  display: flex;
+  min-height: 100vh;
+}
+
+.side-nav {
+  width: 220px;
+  background-color: #0b3d91;
+  color: #ffffff;
+  padding: 24px 18px;
+  box-sizing: border-box;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+}
+
+.side-nav h2 {
+  margin-top: 0;
+  font-size: 24px;
+  color: #f4c542;
+}
+
+.side-nav a {
+  display: block;
+  color: #ffffff;
+  text-decoration: none;
+  margin: 14px 0;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.side-nav a:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+}
+
+.main-content {
+  margin-left: 220px;
+  width: calc(100% - 220px);
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.page-header {
+  background-color: #ffffff;
+  border-left: 8px solid #f4c542;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.page-header h1 {
+  margin-top: 0;
+  color: #0b3d91;
+}
+
+.search-section,
+.status-section {
+  background-color: #ffffff;
+  padding: 18px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.search-section label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.search-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.search-row input {
+  flex: 1;
+  min-width: 240px;
+  padding: 12px;
+  font-size: 16px;
+  border: 2px solid #0b3d91;
+  border-radius: 8px;
+}
+
+.search-row button {
+  padding: 12px 18px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #d62828;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.search-row button:hover {
+  background-color: #b71f1f;
+}
+
+.search-row button:disabled {
+  background-color: #888888;
+  cursor: not-allowed;
+}
+
+#statusMessage {
+  margin: 0;
+  font-weight: bold;
+  color: #0b3d91;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.meal-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-top: 6px solid #f4c542;
+}
+
+.meal-card img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.meal-card h2 {
+  margin-top: 0;
+  color: #0b3d91;
+}
+
+.meal-card p {
+  margin: 8px 0;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  body {
+    display: block;
+  }
+
+  .side-nav {
+    width: 100%;
+    height: auto;
+    position: static;
+  }
+
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+}
