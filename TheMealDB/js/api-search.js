@@ -1,9 +1,11 @@
 const searchInput = document.getElementById("searchInput");
 const searchBtn = document.getElementById("searchBtn");
+const randomBtn = document.getElementById("randomBtn");
 const statusMessage = document.getElementById("statusMessage");
 const results = document.getElementById("results");
 
 searchBtn.addEventListener("click", runSearch);
+randomBtn.addEventListener("click", loadRandomMeal);
 
 searchInput.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
@@ -23,6 +25,7 @@ async function runSearch() {
   statusMessage.textContent = "Cooking up your search...";
   results.innerHTML = "";
   searchBtn.disabled = true;
+  randomBtn.disabled = true;
   searchBtn.textContent = "Loading...";
 
   const apiUrl = `https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(searchTerm)}`;
@@ -62,6 +65,46 @@ async function runSearch() {
     console.error("Meal search error:", error);
   } finally {
     searchBtn.disabled = false;
+    randomBtn.disabled = false;
     searchBtn.textContent = "Search";
+  }
+}
+
+async function loadRandomMeal() {
+  statusMessage.textContent = "Finding a random meal...";
+  results.innerHTML = "";
+  searchBtn.disabled = true;
+  randomBtn.disabled = true;
+  randomBtn.textContent = "Loading...";
+
+  try {
+    const response = await fetch("https://www.themealdb.com/api/json/v1/1/random.php");
+
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const meal = data.meals[0];
+
+    statusMessage.textContent = "Here is a random meal from the Baratie kitchen!";
+
+    results.innerHTML = `
+      <article class="meal-card">
+        <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
+        <h2>${meal.strMeal}</h2>
+        <p><strong>Category:</strong> ${meal.strCategory}</p>
+        <p><strong>Area:</strong> ${meal.strArea}</p>
+        <p><strong>Instructions:</strong> ${meal.strInstructions.slice(0, 120)}...</p>
+      </article>
+    `;
+  } catch (error) {
+    statusMessage.textContent = "Could not load a random meal. Try again.";
+    results.innerHTML = "";
+    console.error("Random meal error:", error);
+  } finally {
+    searchBtn.disabled = false;
+    randomBtn.disabled = false;
+    randomBtn.textContent = "Random Meal";
   }
 }
