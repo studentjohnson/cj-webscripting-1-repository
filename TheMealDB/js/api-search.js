@@ -54,11 +54,18 @@ async function runSearch() {
             <h2>${meal.strMeal}</h2>
             <p><strong>Category:</strong> ${meal.strCategory}</p>
             <p><strong>Area:</strong> ${meal.strArea}</p>
-            <p><strong>Instructions:</strong> ${meal.strInstructions.slice(0, 120)}...</p>
+            <p>
+              <strong>Instructions:</strong>
+              <span class="short-text">${meal.strInstructions.slice(0, 120)}...</span>
+              <span class="full-text" style="display: none;">${meal.strInstructions}</span>
+              <button class="toggle-btn">more</button>
+            </p>
           </article>
         `;
       })
       .join("");
+
+    setupToggleButtons();
   } catch (error) {
     statusMessage.textContent = "Something went wrong. Please try again.";
     results.innerHTML = "";
@@ -95,9 +102,16 @@ async function loadRandomMeal() {
         <h2>${meal.strMeal}</h2>
         <p><strong>Category:</strong> ${meal.strCategory}</p>
         <p><strong>Area:</strong> ${meal.strArea}</p>
-        <p><strong>Instructions:</strong> ${meal.strInstructions.slice(0, 120)}...</p>
+        <p>
+          <strong>Instructions:</strong>
+          <span class="short-text">${meal.strInstructions.slice(0, 120)}...</span>
+          <span class="full-text" style="display: none;">${meal.strInstructions}</span>
+          <button class="toggle-btn">more</button>
+        </p>
       </article>
     `;
+
+    setupToggleButtons();
   } catch (error) {
     statusMessage.textContent = "Could not load a random meal. Try again.";
     results.innerHTML = "";
@@ -107,4 +121,26 @@ async function loadRandomMeal() {
     randomBtn.disabled = false;
     randomBtn.textContent = "Random Meal";
   }
+}
+
+function setupToggleButtons() {
+  const toggleButtons = document.querySelectorAll(".toggle-btn");
+
+  toggleButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      const textBox = button.parentElement;
+      const shortText = textBox.querySelector(".short-text");
+      const fullText = textBox.querySelector(".full-text");
+
+      if (fullText.style.display === "none") {
+        fullText.style.display = "inline";
+        shortText.style.display = "none";
+        button.textContent = "less";
+      } else {
+        fullText.style.display = "none";
+        shortText.style.display = "inline";
+        button.textContent = "more";
+      }
+    });
+  });
 }
