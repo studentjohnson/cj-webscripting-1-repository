@@ -109,6 +109,15 @@ body {
   cursor: not-allowed;
 }
 
+#randomBtn {
+  background-color: #f4c542;
+  color: #000000;
+}
+
+#randomBtn:hover {
+  background-color: #d9a800;
+}
+
 #statusMessage {
   margin: 0;
   font-weight: bold;
@@ -145,6 +154,20 @@ body {
   line-height: 1.4;
 }
 
+.toggle-btn {
+  margin-left: 8px;
+  border: none;
+  background: none;
+  color: #d62828;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+}
+
+.toggle-btn:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 768px) {
   body {
     display: block;
@@ -160,12 +183,4 @@ body {
     margin-left: 0;
     width: 100%;
   }
-}
-#randomBtn {
-  background-color: #f4c542;
-  color: #000;
-}
-
-#randomBtn:hover {
-  background-color: #d9a800;
 }
