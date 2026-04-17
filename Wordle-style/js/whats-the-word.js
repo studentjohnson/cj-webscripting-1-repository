@@ -27,10 +27,9 @@ const board = document.getElementById("board");
 const statusMessage = document.getElementById("status-message");
 const restartBtn = document.getElementById("restart-btn");
 const guessCounter = document.getElementById("guess-counter");
+const easyModeBtn = document.getElementById("easy-mode-btn");
 
-// --------------------
 // LOGIC LAYER
-// --------------------
 
 function getRandomWord() {
   const randomIndex = Math.floor(Math.random() * words.length);
@@ -40,9 +39,15 @@ function getRandomWord() {
 function restartGame() {
   game.targetWord = getRandomWord();
   game.currentRow = 0;
-  game.guesses = ["", "", "", "", "", ""];
-  game.feedback = [null, null, null, null, null, null];
   game.state = "playing";
+
+  if (game.easyMode) {
+    game.guesses = [""];
+    game.feedback = [null];
+  } else {
+    game.guesses = ["", "", "", "", "", ""];
+    game.feedback = [null, null, null, null, null, null];
+  }
 }
 
 function processInput(key) {
@@ -92,6 +97,14 @@ function submitGuess() {
     return;
   }
 
+  if (game.easyMode) {
+    game.currentRow++;
+    game.guesses.push("");
+    game.feedback.push(null);
+    createBoard();
+    return;
+  }
+
   if (game.currentRow === 5) {
     game.state = "lose";
     return;
@@ -114,14 +127,12 @@ function checkGuess(guess, target) {
   return result;
 }
 
-// --------------------
 // UI LAYER
-// --------------------
 
 function createBoard() {
   board.innerHTML = "";
 
-  for (let row = 0; row < 6; row++) {
+  for (let row = 0; row < game.guesses.length; row++) {
     const rowDiv = document.createElement("div");
     rowDiv.classList.add("row");
 
@@ -137,7 +148,7 @@ function createBoard() {
 }
 
 function renderGame() {
-  for (let row = 0; row < 6; row++) {
+  for (let row = 0; row < game.guesses.length; row++) {
     const guess = game.guesses[row];
     const feedbackRow = game.feedback[row];
 
@@ -153,7 +164,6 @@ function renderGame() {
     }
   }
 
-  // Status messages
   if (game.state === "playing") {
     statusMessage.textContent = "Type a 5-letter word to begin.";
   } else if (game.state === "first-win") {
@@ -164,17 +174,24 @@ function renderGame() {
     statusMessage.textContent = "Just testing how to lose gracefully I see! The word was " + game.targetWord + ".";
   }
 
-  // Guess counter
   if (game.state === "playing") {
-    guessCounter.textContent = "Guess: " + (game.currentRow + 1) + " of 6";
+    if (game.easyMode) {
+      guessCounter.textContent = "Guess: " + (game.currentRow + 1) + " (Easy Mode: unlimited)";
+    } else {
+      guessCounter.textContent = "Guess: " + (game.currentRow + 1) + " of 6";
+    }
   } else {
     guessCounter.textContent = "Game finished";
   }
+
+  if (game.easyMode) {
+    easyModeBtn.textContent = "Easy Mode: On";
+  } else {
+    easyModeBtn.textContent = "Easy Mode: Off";
+  }
 }
 
-// --------------------
 // EVENTS
-// --------------------
 
 document.addEventListener("keydown", function (event) {
   const key = event.key.toUpperCase();
@@ -184,12 +201,20 @@ document.addEventListener("keydown", function (event) {
 
 restartBtn.addEventListener("click", function () {
   restartGame();
+  createBoard();
+  renderGame();
+});
+
+easyModeBtn.addEventListener("click", function () {
+  game.easyMode = !game.easyMode;
+  restartGame();
+  createBoard();
   renderGame();
 });
 
 // Start the game
-createBoard();
 restartGame();
+createBoard();
 renderGame();
 
 // Optional testing line
