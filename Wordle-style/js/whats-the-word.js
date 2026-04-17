@@ -18,7 +18,8 @@ const game = {
   currentRow: 0,
   guesses: ["", "", "", "", "", ""],
   feedback: [null, null, null, null, null, null],
-  state: "playing"
+  state: "playing",
+  easyMode: false
 };
 
 // Page elements
