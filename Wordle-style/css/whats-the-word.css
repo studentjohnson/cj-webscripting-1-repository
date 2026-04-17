@@ -97,3 +97,21 @@ h1 {
   color: #ffffff;
   font-weight: bold;
 }
+.mode-area {
+  margin-top: 15px;
+}
+
+#easy-mode-btn {
+  padding: 10px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #1b1464;
+  cursor: pointer;
+}
+
+#easy-mode-btn:hover {
+  background-color: #eeeeee;
+}
