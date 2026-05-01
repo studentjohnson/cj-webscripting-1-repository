@@ -79,7 +79,12 @@ function getGenreName(book) {
 }
 
 function getCoverImage(book) {
-  return book.coverart || "https://via.placeholder.com/300x420?text=Audiobook";
+  if (book.coverart && book.coverart !== "") {
+    return book.coverart;
+  }
+
+  const title = encodeURIComponent(book.title || "Audiobook");
+  return `https://covers.openlibrary.org/b/title/${title}-L.jpg`;
 }
 
 // ---------------- SEARCH ----------------
@@ -136,16 +141,29 @@ function showSearchResults(books) {
 
 // ---------------- LIBRARY ----------------
 function addBook(id) {
-  const book = lastSearchBooks.find(b => b.id === id);
+  const book = lastSearchBooks.find(function (item) {
+    return String(item.id) === String(id);
+  });
 
-  if (library.some(b => b.id === id)) {
-    statusMessage.textContent = "Already saved.";
+  if (!book) {
+    statusMessage.textContent = "Could not add that audiobook.";
+    console.log("Book not found:", id);
+    console.log("Current search books:", lastSearchBooks);
+    return;
+  }
+
+  const alreadySaved = library.some(function (item) {
+    return String(item.id) === String(book.id);
+  });
+
+  if (alreadySaved) {
+    statusMessage.textContent = "Already in library.";
     return;
   }
 
   const newBook = {
-    id: book.id,
-    title: book.title,
+    id: String(book.id),
+    title: book.title || "Untitled",
     author: getAuthorNames(book),
     image: getCoverImage(book),
     category: getGenreName(book),
@@ -157,6 +175,8 @@ function addBook(id) {
   saveLibrary();
   showLibrary();
   updateStats();
+
+  statusMessage.textContent = `"${newBook.title}" added!`;
 }
 
 // ---------------- SHOW LIBRARY ----------------
