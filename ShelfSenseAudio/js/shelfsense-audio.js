@@ -1,3 +1,9 @@
+// NOTE:
+// The LibriVox API does not support CORS for fetch() requests from the browser.
+// Because of this, I went with JSONP instead to retrieve audiobook data.
+
+
+// ---------------- ELEMENTS ----------------
 const searchInput = document.getElementById("searchInput");
 const searchType = document.getElementById("searchType");
 const searchBtn = document.getElementById("searchBtn");
@@ -18,9 +24,11 @@ const topCategory = document.getElementById("topCategory");
 
 const themeBtn = document.getElementById("themeBtn");
 
+// ---------------- DATA ----------------
 let library = JSON.parse(localStorage.getItem("audioLibrary")) || [];
 let lastSearchBooks = [];
 
+// ---------------- EVENTS ----------------
 searchBtn.addEventListener("click", searchAudiobooks);
 filterSelect.addEventListener("change", showLibrary);
 recommendBtn.addEventListener("click", getRecommendations);
@@ -32,6 +40,25 @@ searchInput.addEventListener("keydown", function (event) {
   }
 });
 
+// ---------------- JSONP FUNCTION ----------------
+function fetchJSONP(url, callbackName) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+
+    window[callbackName] = function (data) {
+      resolve(data);
+      document.body.removeChild(script);
+      delete window[callbackName];
+    };
+
+    script.src = `${url}&callback=${callbackName}`;
+    script.onerror = reject;
+
+    document.body.appendChild(script);
+  });
+}
+
+// ---------------- HELPERS ----------------
 function saveLibrary() {
   localStorage.setItem("audioLibrary", JSON.stringify(library));
 }
@@ -41,47 +68,36 @@ function getAuthorNames(book) {
     return "Unknown Author";
   }
 
-  return book.authors
-    .map(function (author) {
-      return `${author.first_name} ${author.last_name}`.trim();
-    })
-    .join(", ");
+  return book.authors.map(a => `${a.first_name} ${a.last_name}`).join(", ");
 }
 
 function getGenreName(book) {
   if (!book.genres || book.genres.length === 0) {
     return "Other";
   }
-
-  return book.genres[0].name || "Other";
+  return book.genres[0].name;
 }
 
 function getCoverImage(book) {
-  if (book.coverart) {
-    return book.coverart;
-  }
-
-  return "https://via.placeholder.com/300x420?text=Audiobook";
+  return book.coverart || "https://via.placeholder.com/300x420?text=Audiobook";
 }
 
+// ---------------- SEARCH ----------------
 async function searchAudiobooks() {
   const searchTerm = searchInput.value.trim();
   const type = searchType.value;
 
-  if (searchTerm === "") {
-    statusMessage.textContent = "Please enter something to search.";
-    searchResults.innerHTML = "";
+  if (!searchTerm) {
+    statusMessage.textContent = "Enter something to search.";
     return;
   }
 
-  statusMessage.textContent = "Searching the audio shelves...";
+  statusMessage.textContent = "Searching...";
   searchResults.innerHTML = "";
-  searchBtn.disabled = true;
-  searchBtn.textContent = "Searching...";
 
   const params = new URLSearchParams();
   params.set(type, searchTerm);
-  params.set("format", "json");
+  params.set("format", "jsonp");
   params.set("extended", "1");
   params.set("coverart", "1");
   params.set("limit", "12");
@@ -89,275 +105,116 @@ async function searchAudiobooks() {
   const url = `https://librivox.org/api/feed/audiobooks/?${params.toString()}`;
 
   try {
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error: ${response.status}`);
-    }
-
-    const data = await response.json();
+    const data = await fetchJSONP(url, "searchCallback");
 
     if (!data.books || data.books.length === 0) {
-      statusMessage.textContent = "No audiobooks found. Try another search.";
+      statusMessage.textContent = "No results found.";
       return;
     }
 
-    statusMessage.textContent = `Found ${data.books.length} audiobook(s).`;
+    statusMessage.textContent = `Found ${data.books.length} results`;
+    lastSearchBooks = data.books;
     showSearchResults(data.books);
-  } catch (error) {
-    statusMessage.textContent = "Something went wrong. Please try again.";
-    searchResults.innerHTML = "";
-    console.error(error);
-  } finally {
-    searchBtn.disabled = false;
-    searchBtn.textContent = "Search";
+
+  } catch (err) {
+    statusMessage.textContent = "Something went wrong.";
+    console.error(err);
   }
 }
 
+// ---------------- DISPLAY ----------------
 function showSearchResults(books) {
-  lastSearchBooks = books;
-
-  searchResults.innerHTML = books
-    .map(function (book) {
-      return `
-        <div class="book-card">
-          <img src="${getCoverImage(book)}" alt="${book.title}">
-          <h3>${book.title}</h3>
-          <p><strong>Author:</strong> ${getAuthorNames(book)}</p>
-          <p><strong>Category:</strong> ${getGenreName(book)}</p>
-          <p class="small-text"><strong>Time:</strong> ${book.totaltime || "Not listed"}</p>
-          <div class="card-buttons">
-            <button onclick="addBook(${book.id})">Add</button>
-          </div>
-        </div>
-      `;
-    })
-    .join("");
+  searchResults.innerHTML = books.map(book => `
+    <div class="book-card">
+      <img src="${getCoverImage(book)}">
+      <h3>${book.title}</h3>
+      <p>${getAuthorNames(book)}</p>
+      <button onclick="addBook(${book.id})">Add</button>
+    </div>
+  `).join("");
 }
 
-function addBook(bookId) {
-  const book = lastSearchBooks.find(function (item) {
-    return Number(item.id) === Number(bookId);
-  });
+// ---------------- LIBRARY ----------------
+function addBook(id) {
+  const book = lastSearchBooks.find(b => b.id === id);
 
-  if (!book) {
-    statusMessage.textContent = "Could not add that audiobook.";
+  if (library.some(b => b.id === id)) {
+    statusMessage.textContent = "Already saved.";
     return;
   }
 
-  const alreadySaved = library.some(function (item) {
-    return Number(item.id) === Number(book.id);
-  });
-
-  if (alreadySaved) {
-    statusMessage.textContent = "That audiobook is already in your library.";
-    return;
-  }
-
-  const savedBook = {
-    id: Number(book.id),
+  const newBook = {
+    id: book.id,
     title: book.title,
     author: getAuthorNames(book),
     image: getCoverImage(book),
     category: getGenreName(book),
-    time: book.totaltime || "Not listed",
     favorite: false,
     rating: 0
   };
 
-  library.push(savedBook);
+  library.push(newBook);
   saveLibrary();
   showLibrary();
   updateStats();
-
-  statusMessage.textContent = `"${book.title}" was added to your library.`;
 }
 
+// ---------------- SHOW LIBRARY ----------------
 function showLibrary() {
-  const filter = filterSelect.value;
-  let booksToShow = library;
-
-  if (filter === "favorites") {
-    booksToShow = library.filter(function (book) {
-      return book.favorite === true;
-    });
-  } else if (filter !== "all") {
-    booksToShow = library.filter(function (book) {
-      return book.category === filter;
-    });
-  }
-
-  if (booksToShow.length === 0) {
-    libraryList.innerHTML = `<p class="empty-message">No audiobooks to show yet.</p>`;
+  if (library.length === 0) {
+    libraryList.innerHTML = "<p>No saved books.</p>";
     return;
   }
 
-  libraryList.innerHTML = booksToShow
-    .map(function (book) {
-      return `
-        <div class="book-card">
-          <img src="${book.image}" alt="${book.title}">
-          <h3>${book.title}</h3>
-          <p><strong>Author:</strong> ${book.author}</p>
-          <p><strong>Time:</strong> ${book.time}</p>
-
-          <label>Category</label>
-          <select onchange="changeCategory(${book.id}, this.value)">
-            ${categoryOption(book.category, "Fantasy")}
-            ${categoryOption(book.category, "Mystery")}
-            ${categoryOption(book.category, "Adventure")}
-            ${categoryOption(book.category, "History")}
-            ${categoryOption(book.category, "Poetry")}
-            ${categoryOption(book.category, "Other")}
-          </select>
-
-          <label>Rating</label>
-          <select onchange="changeRating(${book.id}, this.value)">
-            ${ratingOption(book.rating, 0, "Not Rated")}
-            ${ratingOption(book.rating, 1, "1 Star")}
-            ${ratingOption(book.rating, 2, "2 Stars")}
-            ${ratingOption(book.rating, 3, "3 Stars")}
-            ${ratingOption(book.rating, 4, "4 Stars")}
-            ${ratingOption(book.rating, 5, "5 Stars")}
-          </select>
-
-          <div class="card-buttons">
-            <button class="favorite-btn" onclick="toggleFavorite(${book.id})">
-              ${book.favorite ? "Unfavorite" : "Favorite"}
-            </button>
-            <button class="remove-btn" onclick="removeBook(${book.id})">Remove</button>
-          </div>
-        </div>
-      `;
-    })
-    .join("");
+  libraryList.innerHTML = library.map(book => `
+    <div class="book-card">
+      <img src="${book.image}">
+      <h3>${book.title}</h3>
+      <p>${book.author}</p>
+      <button onclick="toggleFavorite(${book.id})">
+        ${book.favorite ? "Unfavorite" : "Favorite"}
+      </button>
+      <button onclick="removeBook(${book.id})">Remove</button>
+    </div>
+  `).join("");
 }
 
-function categoryOption(currentCategory, optionName) {
-  const selected = currentCategory === optionName ? "selected" : "";
-  return `<option value="${optionName}" ${selected}>${optionName}</option>`;
-}
-
-function ratingOption(currentRating, value, text) {
-  const selected = Number(currentRating) === value ? "selected" : "";
-  return `<option value="${value}" ${selected}>${text}</option>`;
-}
-
-function changeCategory(bookId, newCategory) {
-  const book = library.find(function (item) {
-    return Number(item.id) === Number(bookId);
-  });
-
-  if (book) {
-    book.category = newCategory;
-    saveLibrary();
-    showLibrary();
-    updateStats();
-  }
-}
-
-function changeRating(bookId, newRating) {
-  const book = library.find(function (item) {
-    return Number(item.id) === Number(bookId);
-  });
-
-  if (book) {
-    book.rating = Number(newRating);
-    saveLibrary();
-    updateStats();
-  }
-}
-
-function toggleFavorite(bookId) {
-  const book = library.find(function (item) {
-    return Number(item.id) === Number(bookId);
-  });
-
-  if (book) {
-    book.favorite = !book.favorite;
-    saveLibrary();
-    showLibrary();
-    updateStats();
-  }
-}
-
-function removeBook(bookId) {
-  library = library.filter(function (book) {
-    return Number(book.id) !== Number(bookId);
-  });
-
+// ---------------- FAVORITE / REMOVE ----------------
+function toggleFavorite(id) {
+  const book = library.find(b => b.id === id);
+  book.favorite = !book.favorite;
   saveLibrary();
   showLibrary();
   updateStats();
 }
 
+function removeBook(id) {
+  library = library.filter(b => b.id !== id);
+  saveLibrary();
+  showLibrary();
+  updateStats();
+}
+
+// ---------------- STATS ----------------
 function updateStats() {
   totalSaved.textContent = library.length;
-
-  const favorites = library.filter(function (book) {
-    return book.favorite === true;
-  });
-
-  favoriteCount.textContent = favorites.length;
-
-  const ratedBooks = library.filter(function (book) {
-    return book.rating > 0;
-  });
-
-  if (ratedBooks.length === 0) {
-    averageRating.textContent = "0";
-  } else {
-    const total = ratedBooks.reduce(function (sum, book) {
-      return sum + book.rating;
-    }, 0);
-
-    averageRating.textContent = (total / ratedBooks.length).toFixed(1);
-  }
-
-  topCategory.textContent = findTopCategory();
+  favoriteCount.textContent = library.filter(b => b.favorite).length;
 }
 
-function findTopCategory() {
-  if (library.length === 0) {
-    return "None";
-  }
-
-  const counts = {};
-
-  library.forEach(function (book) {
-    counts[book.category] = (counts[book.category] || 0) + 1;
-  });
-
-  let bestCategory = "None";
-  let bestCount = 0;
-
-  for (let category in counts) {
-    if (counts[category] > bestCount) {
-      bestCategory = category;
-      bestCount = counts[category];
-    }
-  }
-
-  return bestCategory;
-}
-
+// ---------------- RECOMMEND ----------------
 async function getRecommendations() {
-  const category = findTopCategory();
+  const top = findTopCategory();
 
-  if (category === "None") {
-    recommendMessage.textContent = "Add audiobooks first so recommendations can work.";
-    recommendResults.innerHTML = "";
+  if (top === "None") {
+    recommendMessage.textContent = "Add books first.";
     return;
   }
 
-  recommendMessage.textContent = `Looking for more ${category} audiobooks...`;
-  recommendResults.innerHTML = "";
-  recommendBtn.disabled = true;
-  recommendBtn.textContent = "Loading...";
+  recommendMessage.textContent = "Loading recommendations...";
 
   const params = new URLSearchParams();
-  params.set("genre", category);
-  params.set("format", "json");
+  params.set("genre", top);
+  params.set("format", "jsonp");
   params.set("extended", "1");
   params.set("coverart", "1");
   params.set("limit", "6");
@@ -365,65 +222,49 @@ async function getRecommendations() {
   const url = `https://librivox.org/api/feed/audiobooks/?${params.toString()}`;
 
   try {
-    const response = await fetch(url);
+    const data = await fetchJSONP(url, "recommendCallback");
 
-    if (!response.ok) {
-      throw new Error(`HTTP error: ${response.status}`);
-    }
+    recommendResults.innerHTML = data.books.map(book => `
+      <div class="book-card">
+        <img src="${getCoverImage(book)}">
+        <h3>${book.title}</h3>
+      </div>
+    `).join("");
 
-    const data = await response.json();
-
-    if (!data.books || data.books.length === 0) {
-      recommendMessage.textContent = "No recommendations found right now.";
-      return;
-    }
-
-    recommendMessage.textContent = `Recommended because you like ${category}.`;
-
-    recommendResults.innerHTML = data.books
-      .map(function (book) {
-        return `
-          <div class="book-card">
-            <img src="${getCoverImage(book)}" alt="${book.title}">
-            <h3>${book.title}</h3>
-            <p><strong>Author:</strong> ${getAuthorNames(book)}</p>
-            <p><strong>Category:</strong> ${getGenreName(book)}</p>
-            <p class="small-text"><strong>Time:</strong> ${book.totaltime || "Not listed"}</p>
-          </div>
-        `;
-      })
-      .join("");
-  } catch (error) {
-    recommendMessage.textContent = "Could not load recommendations. Try again.";
-    recommendResults.innerHTML = "";
-    console.error(error);
-  } finally {
-    recommendBtn.disabled = false;
-    recommendBtn.textContent = "Get Recommendations";
+  } catch (err) {
+    recommendMessage.textContent = "Error loading recommendations.";
   }
 }
 
+function findTopCategory() {
+  if (library.length === 0) return "None";
+
+  const counts = {};
+  library.forEach(b => counts[b.category] = (counts[b.category] || 0) + 1);
+
+  return Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+}
+
+// ---------------- THEME ----------------
 function toggleTheme() {
   document.body.classList.toggle("dark-mode");
 
   if (document.body.classList.contains("dark-mode")) {
-    themeBtn.textContent = "Switch to Light Mode";
-    localStorage.setItem("audioTheme", "dark");
+    themeBtn.textContent = "Light Mode";
+    localStorage.setItem("theme", "dark");
   } else {
-    themeBtn.textContent = "Switch to Dark Mode";
-    localStorage.setItem("audioTheme", "light");
+    themeBtn.textContent = "Dark Mode";
+    localStorage.setItem("theme", "light");
   }
 }
 
 function loadTheme() {
-  const savedTheme = localStorage.getItem("audioTheme");
-
-  if (savedTheme === "dark") {
+  if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark-mode");
-    themeBtn.textContent = "Switch to Light Mode";
   }
 }
 
+// ---------------- INIT ----------------
 loadTheme();
 showLibrary();
 updateStats();
