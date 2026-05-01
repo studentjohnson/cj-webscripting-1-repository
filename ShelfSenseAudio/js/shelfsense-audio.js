@@ -19,6 +19,7 @@ const topCategory = document.getElementById("topCategory");
 const themeBtn = document.getElementById("themeBtn");
 
 let library = JSON.parse(localStorage.getItem("audioLibrary")) || [];
+let lastSearchBooks = [];
 
 searchBtn.addEventListener("click", searchAudiobooks);
 filterSelect.addEventListener("change", showLibrary);
@@ -85,7 +86,7 @@ async function searchAudiobooks() {
   params.set("coverart", "1");
   params.set("limit", "12");
 
-  const url = `https://librivox.org/api/feed/audiobooks?${params.toString()}`;
+  const url = `https://librivox.org/api/feed/audiobooks/?${params.toString()}`;
 
   try {
     const response = await fetch(url);
@@ -114,6 +115,8 @@ async function searchAudiobooks() {
 }
 
 function showSearchResults(books) {
+  lastSearchBooks = books;
+
   searchResults.innerHTML = books
     .map(function (book) {
       return `
@@ -124,19 +127,17 @@ function showSearchResults(books) {
           <p><strong>Category:</strong> ${getGenreName(book)}</p>
           <p class="small-text"><strong>Time:</strong> ${book.totaltime || "Not listed"}</p>
           <div class="card-buttons">
-            <button onclick="addBook(${book.id}, '${encodeURIComponent(book.title)}')">Add</button>
+            <button onclick="addBook(${book.id})">Add</button>
           </div>
         </div>
       `;
     })
     .join("");
-
-  window.lastSearchBooks = books;
 }
 
 function addBook(bookId) {
-  const book = window.lastSearchBooks.find(function (item) {
-    return item.id === bookId;
+  const book = lastSearchBooks.find(function (item) {
+    return Number(item.id) === Number(bookId);
   });
 
   if (!book) {
@@ -145,7 +146,7 @@ function addBook(bookId) {
   }
 
   const alreadySaved = library.some(function (item) {
-    return item.id === book.id;
+    return Number(item.id) === Number(book.id);
   });
 
   if (alreadySaved) {
@@ -154,7 +155,7 @@ function addBook(bookId) {
   }
 
   const savedBook = {
-    id: book.id,
+    id: Number(book.id),
     title: book.title,
     author: getAuthorNames(book),
     image: getCoverImage(book),
@@ -174,7 +175,6 @@ function addBook(bookId) {
 
 function showLibrary() {
   const filter = filterSelect.value;
-
   let booksToShow = library;
 
   if (filter === "favorites") {
@@ -245,7 +245,7 @@ function ratingOption(currentRating, value, text) {
 
 function changeCategory(bookId, newCategory) {
   const book = library.find(function (item) {
-    return item.id === bookId;
+    return Number(item.id) === Number(bookId);
   });
 
   if (book) {
@@ -258,7 +258,7 @@ function changeCategory(bookId, newCategory) {
 
 function changeRating(bookId, newRating) {
   const book = library.find(function (item) {
-    return item.id === bookId;
+    return Number(item.id) === Number(bookId);
   });
 
   if (book) {
@@ -270,7 +270,7 @@ function changeRating(bookId, newRating) {
 
 function toggleFavorite(bookId) {
   const book = library.find(function (item) {
-    return item.id === bookId;
+    return Number(item.id) === Number(bookId);
   });
 
   if (book) {
@@ -283,7 +283,7 @@ function toggleFavorite(bookId) {
 
 function removeBook(bookId) {
   library = library.filter(function (book) {
-    return book.id !== bookId;
+    return Number(book.id) !== Number(bookId);
   });
 
   saveLibrary();
@@ -362,7 +362,7 @@ async function getRecommendations() {
   params.set("coverart", "1");
   params.set("limit", "6");
 
-  const url = `https://librivox.org/api/feed/audiobooks?${params.toString()}`;
+  const url = `https://librivox.org/api/feed/audiobooks/?${params.toString()}`;
 
   try {
     const response = await fetch(url);
