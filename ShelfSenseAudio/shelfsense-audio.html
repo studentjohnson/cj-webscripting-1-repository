@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>ShelfSenseAudio</title>
+
+  <link rel="stylesheet" href="css/shelfsense-audio.css" />
+</head>
+<body>
+  <nav class="side-nav">
+    <h2>ShelfSenseAudio</h2>
+
+    <a href="index.html">Home</a>
+    <a href="api-search.html">Baratie Eats</a>
+    <a href="shelfsense-audio.html">ShelfSenseAudio</a>
+  </nav>
+
+  <main class="page-content">
+    <header class="page-header">
+      <h1>ShelfSenseAudio</h1>
+      <p>
+        Search free public domain audiobooks, save your favorites, and get listening recommendations.
+      </p>
+    </header>
+
+    <section class="search-section">
+      <h2>Find Audiobooks</h2>
+
+      <div class="search-controls">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search Dracula, Austen, Mystery..."
+        />
+
+        <select id="searchType">
+          <option value="title">Title</option>
+          <option value="author">Author</option>
+          <option value="genre">Genre</option>
+        </select>
+
+        <button id="searchBtn">Search</button>
+      </div>
+
+      <p id="statusMessage">Search for an audiobook to begin.</p>
+    </section>
+
+    <section class="stats-section">
+      <h2>My Listening Stats</h2>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>Total Saved</h3>
+          <p id="totalSaved">0</p>
+        </div>
+
+        <div class="stat-card">
+          <h3>Favorites</h3>
+          <p id="favoriteCount">0</p>
+        </div>
+
+        <div class="stat-card">
+          <h3>Average Rating</h3>
+          <p id="averageRating">0</p>
+        </div>
+
+        <div class="stat-card">
+          <h3>Top Category</h3>
+          <p id="topCategory">None</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="results-section">
+      <h2>Search Results</h2>
+      <div id="searchResults" class="book-grid"></div>
+    </section>
+
+    <section class="library-section">
+      <div class="section-title-row">
+        <h2>My Audio Library</h2>
+
+        <select id="filterSelect">
+          <option value="all">All Books</option>
+          <option value="favorites">Favorites</option>
+          <option value="Fantasy">Fantasy</option>
+          <option value="Mystery">Mystery</option>
+          <option value="Adventure">Adventure</option>
+          <option value="History">History</option>
+          <option value="Poetry">Poetry</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div id="libraryList" class="book-grid"></div>
+    </section>
+
+    <section class="recommend-section">
+      <div class="section-title-row">
+        <h2>Recommendations</h2>
+        <button id="recommendBtn">Get Recommendations</button>
+      </div>
+
+      <p id="recommendMessage">
+        Save and rate audiobooks to get better recommendations.
+      </p>
+
+      <div id="recommendResults" class="book-grid"></div>
+    </section>
+  </main>
+
+  <script src="js/shelfsense-audio.js"></script>
+</body>
+</html>
